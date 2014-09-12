@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -151,15 +152,27 @@ public class AdapterTest extends Activity implements View.OnClickListener {
         public View getView(int position, View convertView, ViewGroup parent) {
             int type = getItemViewType(position);
             if (convertView == null) {
+                AbsListView.LayoutParams params;
                 switch (type) {
                     case TYPE_EMPTY:
                         convertView = LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.empty_text, parent, false);
+                        params = new AbsListView.LayoutParams(
+                                parent.getWidth(), parent.getHeight());
+                        convertView.setLayoutParams(params);
                         break;
                     case TYPE_LOADING:
-                        convertView = new ProgressBar(parent.getContext());
-                        ProgressBar pb = (ProgressBar) convertView;
-                        pb.setIndeterminate(true);
+                        convertView = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.progress_bar, parent, false);
+
+                        params = new AbsListView.LayoutParams(
+                                parent.getWidth(), parent.getHeight());
+                        convertView.setLayoutParams(params);
+
+                        Log.d("NN", " LISTVIEW height " + mListView.getHeight());
+                        Log.d("NN", " parent height " + parent.getHeight());
+
+
                         break;
                     case TYPE_NORMAL:
                         convertView = new TextView(parent.getContext());
